@@ -1,0 +1,95 @@
+#!/usr/bin/php
+<?php
+
+$usage = <<< EOF
+\e[1;31msqloader_cache --remove <dir>\e[0;m    # removes all caches (useful for dev)
+\e[1;31msqloader_cache <dir>\e[0;m             # caches all *.sql files in the directory given
+EOF;
+
+$dir_not_found = <<< EOF
+\e[1;31mcannot access directory.\e[0;m
+EOF;
+
+$dir_clean = <<< EOF
+\e[1;31mno cache file found.\e[0;m
+EOF;
+
+$dir_perms = <<< EOF
+\e[1;31munable to delete cache file (check file permissions).\e[0;m
+EOF;
+
+define('HELP_PATTERN',  '#^--?h(elp)?$#i');
+define('CACHE_FILE',    '__sqloader_cache.php');
+
+function terminate($msg)
+{
+   echo $msg;
+   echo PHP_EOL;
+   exit(1);
+}
+
+function find_files_recursive($dir)
+{
+   $files_found = glob(sprintf('%s%s*.sql', $dir, 
+      DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR),
+      GLOB_NOSORT & GLOB_NOESCAPE);
+   
+   $dirs_found = glob(sprintf('%s%s*', $dir, 
+      DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR),
+      GLOB_NOSORT & GLOB_NOESCAPE & GLOB_ONLYDIR);
+   
+   for ($i = 0, $c = count($dirs_found); $i < $c; $i++)
+      $files_found = array_merge($files_found, 
+         find_files_recursive($dirs_found[$i]));
+   
+   return $files_found;
+}
+
+if ($argc === 1) terminate($usage);
+if (preg_match(HELP_PATTERN, $argv[1])) usage();
+
+if ($argv[1] === '--remove')
+{
+   if ($argc === 2) terminate($usage);   
+   if (!is_dir($argv[2])) terminate($dir_not_found);
+   
+   $file = implode(DIRECTORY_SEPARATOR, array($argv[2], CACHE_FILE));
+   if (!is_file($file)) terminate($dir_clean);
+   if (!@unlink($file)) terminate($dir_perms);
+   exit(0);
+}
+
+ob_start();
+
+// ------------------------------------
+// ------------------------------------
+// ------------------------------------
+// ------------------------------------
+// ------------------------------------
+// ------------------------------------
+// ------------------------------------
+
+if (!is_dir($argv[1])) terminate($dir_not_found);
+$files = find_files_recursive($argv[1]);
+
+?>
+<?php foreach ($files as $file): ?>
+
+<?php $name = substr($file, (strlen($argv[1]) + 1), -4); ?>   
+SQLoader::$__cached['<?= $name ?>'] = <<< 'EOCACHELINE'
+<?= file_get_contents($file) ?>
+<?= PHP_EOL ?>
+EOCACHELINE;
+
+<?php endforeach ?>
+<?php
+
+$lines = array('<?php', PHP_EOL, ob_get_contents(), '?>');
+$source = implode($lines);
+ob_end_clean();
+
+$file = implode(DIRECTORY_SEPARATOR, array($argv[1], CACHE_FILE));
+if (!@file_put_contents($file, $source)) terminate($dir_perms);
+exit(0);
+
+?>

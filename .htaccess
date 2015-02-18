@@ -1,0 +1,6 @@
+# RewriteEngine On
+
+# RewriteRule ^index\.php$ core/init.php [L]
+# RewriteCond %{REQUEST_URI} ^$ [OR]
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^(.*)$ core/init.php [L]

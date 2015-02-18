@@ -1,0 +1,143 @@
+html {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	color: #333;
+	padding: 20px;
+	margin: 0;
+}
+
+* {
+	font-family: monospace;
+	font-size: 13px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	padding-top: 4px;
+	text-align: left;
+	font-weight: normal;
+}
+
+tbody tr:first-child td {
+	padding-top: 6px;
+}
+
+tbody tr:last-child td {
+	padding-bottom: 6px;
+}
+
+tbody tr:first-child td:first-child {
+	background-position: 8px 5px;
+}
+
+thead tr:last-child th {
+	border-bottom: 1px solid #999;
+	padding-bottom: 6px;
+}
+
+tfoot tr td {
+	border-top: 1px solid #999;
+	padding-top: 6px;
+}
+
+tfoot tr:first-child td:first-child {
+	background-position: 8px 5px;
+}
+
+td:not(:last-child), 
+th:not(:last-child) {
+	padding-right: 64px;
+}
+
+th {
+	color: #999;
+}
+
+a {
+	text-decoration: none;
+	color: #1C7DC6;
+}
+
+td:first-child,
+th:first-child {
+	padding-left: 32px;
+}
+
+.icon-dir {
+	background: url(../im/dir.png) 8px 3px no-repeat;
+}
+
+.icon-file {
+	background: url(../im/file.png) 8px 3px no-repeat;
+}
+
+.icon-parent {
+	background: url(../im/parent.png) 8px 3px no-repeat;
+}
+
+.icon-video {
+	background: url(../im/video.png) 8px 3px no-repeat;
+}
+
+.icon-audio {
+	background: url(../im/audio.png) 8px 3px no-repeat;
+}
+
+.icon-image {
+	background: url(../im/image.png) 8px 3px no-repeat;
+}
+
+.icon-download {
+	background: url(../im/download.png) 8px 3px no-repeat;
+}
+
+th span {
+	float: left;
+	width: auto;
+	height: 16px;
+	line-height: 16px;
+}
+
+.icon-sort {
+	background: url(../im/sort.png) center center no-repeat;
+}
+
+.icon-sort-reverse {
+	background: url(../im/sort-reverse.png) center center no-repeat;	
+	margin-left: 8px;
+}
+
+.icon-sort, 
+.icon-sort-reverse {
+	cursor: pointer;
+	display: inline-block;
+	float: left;
+	height: 8px;
+	margin-top: 4px;
+	opacity: 0.5;
+	width: 16px;
+}
+
+.icon-sort:hover, 
+.icon-sort-reverse:hover {
+	opacity: 1;
+}
+
+h1 {
+	font-family: sans-serif;
+	color: #666;
+}
+
+.extended {
+	color: #9D0000;
+}
+
+.in-archive a {
+	color: #9D0000;
+}
