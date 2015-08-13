@@ -31,7 +31,16 @@ function create_path($parts)
 
 function extract_path($path)
 {
-	return explode(DIRECTORY_SEPARATOR, $path);
+	$parts = explode(DIRECTORY_SEPARATOR, $path);
+	
+	if ($count = count($parts))
+	{
+		$last = $parts[$count-1];
+		if (strlen($last) === 0)
+			$parts = array_slice($parts, 0, -1);
+	}
+	
+	return $parts;
 }
 
 function file_extension($name)
